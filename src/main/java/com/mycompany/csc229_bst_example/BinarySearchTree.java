@@ -51,34 +51,78 @@ public class BinarySearchTree {
     }
 
     public void inOrderTraversal() {
+        System.out.print("InOrderTraversal: ");
         doInOrder(this.root);
+        System.out.println();
     }
 
     private void doInOrder(BstNode root) {
-
-        // ToDo 1: complete InOrder Traversal 
+        if (root != null) {
+            doInOrder(root.getLeft());
+            System.out.print(root.getData() + " ");
+            doInOrder(root.getRight());
+        }
     }
-        public void preOrderTraversal() {
+
+    public void preOrderTraversal() {
+        System.out.print("PreOrder Traversal:");
         doPreOrder(this.root);
-        // ToDo 2: complete the pre-order travesal . 
+        System.out.println();
+    }
+
+    private void doPreOrder(BstNode root) {
+        if (root != null) {
+            System.out.print(root.getData() + " ");
+            doPreOrder(root.getLeft());
+            doPreOrder(root.getRight());
+        }
     }
 
     public Integer findHeight() {
-
-        // ToDo 3: Find the height of a tree
+        return getHeight(this.root);
     }
 
-    
+    private Integer getHeight(BstNode root) {
+        if (root == null) {
+            return -1;
+        }
+        int leftHeight = getHeight(root.getLeft());
+        int rightHeight = getHeight(root.getRight());
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+
 
     public int getDepth(BstNode node) {
-        //ToDo 4: complete getDepth of a node 
+        return getDepth(this.root, node, 0);
     }
-    
-   public void print() {
-       System.out.println("\n==== BST Print ===== \n");
-        print("", root, false);
-        // ToDo 5: complete the print of the BST
+
+    private int getDepth(BstNode root, BstNode node, int depth) {
+        if (root == null) {
+            return -1;
+        }
+        if (root == node) {
+            return depth;
+        }
+        int leftDepth = getDepth(root.getLeft(), node, depth + 1);
+        if (leftDepth != -1) {
+            return leftDepth;
+        }
+        return getDepth(root.getRight(), node, depth + 1);
     }
 
 
+    public void print() {
+        System.out.println("\n==== BST Print ===== \n");
+        print(this.root, "");
+        System.out.println();
+    }
+
+    private void print(BstNode root, String prefix) {
+        if (root != null) {
+            System.out.println(prefix + "├── " + root.getData());
+            print(root.getLeft(), prefix + "│   ");
+            print(root.getRight(), prefix + "│   ");
+        }
+    }
 }
+
